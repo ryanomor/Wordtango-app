@@ -15,9 +15,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'FlutterShare',
+      title: 'Wordtango',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        appBarTheme: AppBarTheme(
+          color: Colors.grey[200],
+          iconTheme:
+              IconThemeData(color: Color(0xffec7c44)), // Wordtango orange
+        ),
         primarySwatch: Colors.orange,
         accentColor: Colors.blueAccent[400],
       ),
