@@ -1,6 +1,7 @@
 // import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:wordtango/pages/app.dart';
+import 'package:wordtango/constants.dart';
 
 void main() {
   // Firestore.instance.settings(timestampsInSnapshotsEnabled: true).then((_) {
@@ -20,10 +21,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         appBarTheme: AppBarTheme(
           color: Colors.grey[200],
-          iconTheme:
-              IconThemeData(color: Color(0xffec7c44)), // Wordtango orange
+          iconTheme: IconThemeData(
+            color: wtPrimaryColor,
+          ),
         ),
-        primarySwatch: Colors.orange,
+        primaryColor: wtPrimaryColor,
         accentColor: Colors.blueAccent[400],
       ),
       home: App(),
