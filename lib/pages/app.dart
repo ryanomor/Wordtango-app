@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:wordtango/pages/signin.dart';
+import 'package:wordtango/pages/signin/signin.dart';
 import 'package:wordtango/pages/welcome/welcome.dart';
 import 'package:wordtango/widgets/appNav.dart';
 import 'package:wordtango/assets/wordtango_icons_icons.dart';
