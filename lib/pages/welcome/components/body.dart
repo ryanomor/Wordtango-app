@@ -26,9 +26,6 @@ class WelcomeBody extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset('assets/logos/longWhite.png'),
-              // SizedBox(
-              //   height: 20,
-              // ),
               Container(
                 width: size.width * 0.8,
                 child: ClipRRect(

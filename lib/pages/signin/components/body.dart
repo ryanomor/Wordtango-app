@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wordtango/widgets/background.dart';
-import 'package:wordtango/widgets/phoneAuth.dart';
+import 'package:wordtango/widgets/phoneAuth/phoneAuth.dart';
 import 'package:wordtango/pages/signin/components/roundedIconButton.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -94,12 +94,12 @@ class SignInBody extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Image.asset('assets/logos/longWhite.png'),
-                RoundedIconButton(
-                  size: size,
-                  icon: FontAwesomeIcons.qq,
-                  text: 'SIGN IN WITH QQ',
-                  onPressed: handleSocialMediaLogin,
-                ),
+                // RoundedIconButton(
+                //   size: size,
+                //   icon: FontAwesomeIcons.qq,
+                //   text: 'SIGN IN WITH QQ',
+                //   onPressed: handleSocialMediaLogin,
+                // ),
                 RoundedIconButton(
                   size: size,
                   icon: FontAwesomeIcons.line,

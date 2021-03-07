@@ -26,6 +26,7 @@ dependencies:
   image_picker: ^0.6.0+2
   timeago: 2.0.17
   flutter_image_compress: ^0.7.0
+  pin_code_fields: ^6.1.0
   # flutter_svg: ^0.19.2
   #Firebase
   firebase_core: ^0.5.3
