@@ -1,10 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:wordtango/widgets/background.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:wordtango/pages/signin/signin.dart';
 import 'package:wordtango/pages/signup/signup.dart';
-import 'package:wordtango/widgets/background.dart';
+import 'package:fluwx/fluwx.dart' as WeChatSDK;
+import 'package:flutter_line_sdk/flutter_line_sdk.dart';
 
-class WelcomeBody extends StatelessWidget {
+class WelcomeBody extends StatefulWidget {
   const WelcomeBody({Key key}) : super(key: key);
+
+  @override
+  _WelcomeBodyState createState() => _WelcomeBodyState();
+}
+
+class _WelcomeBodyState extends State<WelcomeBody> {
+  @override
+  void initState() {
+    super.initState();
+    // initialize sdks
+    LineSDK.instance.setup(env['LINE_CHANNEL_ID']).then((_) {
+      print('LineSDK Prepared');
+    });
+    WeChatSDK.registerWxApi(
+      appId: env['WECHAT_APP_ID'],
+      universalLink: env['UNIVERSAL_LINK'],
+    ).then(
+      (isRegistered) {
+        print('WeChat is initialized: $isRegistered');
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +41,7 @@ class WelcomeBody extends StatelessWidget {
         children: [
           Positioned(
             child: Image.asset(
-              'assets/illustrations/Asset 21.png',
+              'assets/illustrations/welcome_chat.png',
             ),
             width: size.width * 1.2,
             bottom: -85,
@@ -35,7 +60,6 @@ class WelcomeBody extends StatelessWidget {
                     splashColor: Theme.of(context).primaryColor,
                     padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
                     onPressed: () {
-                      print('Navigate to signup widget');
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -60,7 +84,6 @@ class WelcomeBody extends StatelessWidget {
                     ),
                     padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
                     onPressed: () {
-                      print('Navigate to login widget');
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -85,7 +108,7 @@ class WelcomeBody extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 16.0,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),

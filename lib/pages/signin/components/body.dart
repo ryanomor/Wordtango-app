@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:wordtango/widgets/background.dart';
 import 'package:wordtango/widgets/phoneAuth/phoneAuth.dart';
+import 'package:flutter_line_sdk/flutter_line_sdk.dart';
 import 'package:wordtango/pages/signin/components/roundedIconButton.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SignInBody extends StatelessWidget {
   // final _scaffoldKey = GlobalKey<ScaffoldState>();
-  final _formKey = GlobalKey<FormState>();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController pwdController = TextEditingController();
+  // final _formKey = GlobalKey<FormState>();
+  final LineSDK _lineSDK = LineSDK.instance;
+  // TextEditingController emailController = TextEditingController();
+  // TextEditingController pwdController = TextEditingController();
 
-  String email;
-  String password;
+  // String email;
+  // String password;
 
   Container _inputTextField({
     String hintText,
@@ -54,9 +56,18 @@ class SignInBody extends StatelessWidget {
     );
   }
 
-  void handleSocialMediaLogin({IconData icon, BuildContext context}) {
+  void handleSocialMediaLogin({IconData icon, BuildContext context}) async {
     if (icon == FontAwesomeIcons.line) {
-      print('login with LINE');
+      try {
+        await _lineSDK
+            .login(
+              scopes: ["profile", "openid", "email"],
+            )
+            .then(_onLoginSuccess)
+            .catchError(_onLoginError);
+      } catch (e) {
+        print('error signing into LINE: $e');
+      }
     } else if (icon == FontAwesomeIcons.weixin) {
       print('login with WeChat');
     } else if (icon == FontAwesomeIcons.qq) {
@@ -66,6 +77,14 @@ class SignInBody extends StatelessWidget {
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => PhoneAuthentication()));
     }
+  }
+
+  void _onLoginSuccess(Object data) {
+    print('LoginSuccess: $data');
+  }
+
+  void _onLoginError(Object error) {
+    print('LoginError: $error');
   }
 
   @override
