@@ -3,37 +3,48 @@ import 'package:wordtango/widgets/phoneAuth/components/otp.dart';
 import 'package:wordtango/widgets/phoneAuth/components/roundedGradientButton.dart';
 
 class PhoneAuthentication extends StatefulWidget {
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
+  final String flow;
+  // This class is the configuration for the state. It holds the values
+  // provided by the parent (in this case the App widget) and
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
+  PhoneAuthentication({Key key, this.flow}) : super(key: key);
+
   @override
   _PhoneAuthenticationState createState() => _PhoneAuthenticationState();
 }
 
 class _PhoneAuthenticationState extends State<PhoneAuthentication> {
+  String _countryCode = '+1'; // Set default code
+  Map<String, String> _countryCodeMap = {'US +1': '+1', 'CN +86': '+86'};
+  TextEditingController _buttonController = TextEditingController();
   TextEditingController _phoneNumberController = TextEditingController();
-  Map<String, String> countryCodeMap = {'US +1': '+1', 'CN +86': '+86'};
-  String countryCode = '+1'; // Seyt default code
 
   List<DropdownMenuItem<String>> buildDropDownMenuItems(
-      Map<String, String> countryCodeMap) {
+    Map<String, String> _countryCodeMap,
+  ) {
     List<DropdownMenuItem<String>> dropDownMenuItems = [];
-    for (var cCode in countryCodeMap.entries) {
-      dropDownMenuItems.add(DropdownMenuItem(
-        child: Text(cCode.key),
-        value: cCode.key,
-      ));
+    for (var cCode in _countryCodeMap.entries) {
+      dropDownMenuItems.add(
+        DropdownMenuItem(
+          child: Text(
+            cCode.key.padLeft(8),
+          ),
+          value: cCode.key,
+        ),
+      );
     }
     return dropDownMenuItems;
   }
 
-  _navigateToOTP() {
+  void _navigateToOTP() {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => OTP(
-          number: '$countryCode${_phoneNumberController.text}',
+          flow: widget.flow != null ? widget.flow : null,
+          countryCode: _countryCode,
+          number: _phoneNumberController.text,
         ),
       ),
     );
@@ -41,6 +52,8 @@ class _PhoneAuthenticationState extends State<PhoneAuthentication> {
 
   @override
   void dispose() {
+    _buttonController.clear();
+    _buttonController.dispose();
     _phoneNumberController.clear();
     _phoneNumberController.dispose();
     super.dispose();
@@ -84,10 +97,10 @@ class _PhoneAuthenticationState extends State<PhoneAuthentication> {
                       Expanded(
                         child: DropdownButtonFormField(
                           value: 'US +1',
-                          items: buildDropDownMenuItems(countryCodeMap),
-                          onChanged: (value) {
+                          items: buildDropDownMenuItems(_countryCodeMap),
+                          onChanged: (String value) {
                             setState(() {
-                              countryCode = countryCodeMap[value];
+                              _countryCode = _countryCodeMap[value];
                             });
                           },
                         ),
@@ -104,24 +117,27 @@ class _PhoneAuthenticationState extends State<PhoneAuthentication> {
                           decoration: InputDecoration(hintText: 'Phone Number'),
                           onChanged: (value) {
                             setState(() {
-                              _phoneNumberController.text = value;
+                              _buttonController.text = value;
                             });
                           },
                         ),
                       ),
                     ],
                   ),
-                  Text(
-                    "We will send a text with a verification code. Message and data rates may apply.",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      color: Colors.grey[400],
+                  Container(
+                    margin: EdgeInsets.only(top: 25),
+                    child: Text(
+                      "We will send a text with a verification code. Message and data rates may apply.",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey[400],
+                      ),
                     ),
                   ),
                 ],
               ),
               RoundedGradientButton(
-                controller: _phoneNumberController,
+                controller: _buttonController,
                 onPressed: _navigateToOTP,
               ),
             ],
