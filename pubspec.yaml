@@ -46,7 +46,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  jwt_decoder:
+  # jwt_decoder:
   flutter_dotenv: ^3.1.0
   fluttericon: ^1.0.7
   font_awesome_flutter: ^8.11.0
